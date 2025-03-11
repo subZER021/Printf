@@ -3,57 +3,62 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: delrio <delrio@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/30 03:10:58 by marvin            #+#    #+#             */
-/*   Updated: 2024/10/30 03:10:58 by marvin           ###   ########.fr       */
+/*   Created: 2025/03/11 21:56:55 by delrio            #+#    #+#             */
+/*   Updated: 2025/03/11 22:00:12 by delrio           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-int	ft_enter_str(va_list args, const char enter_str)
+static int	ft_check_format(char c, va_list args)
 {
-	int	len;
-
-	len = 0;
-	if (enter_str == 'c')
-		len += ft_putchar(va_arg(args, int));
-	else if (enter_str == 's')
-		len += ft_putstr(va_arg(args, char *));
-	else if (enter_str == 'd' || enter_str == 'i')
-		len += ft_putnbr(va_arg(args, int));
-	else if (enter_str == 'u')
-		len += ft_putunbr(va_arg(args, unsigned int));
-	else if (enter_str == 'x' || enter_str == 'X')
-		len += ft_puthex(va_arg(args, unsigned int), enter_str);
-	else if (enter_str == 'p')
-		len += ft_putptr(va_arg(args, void *));
-	else if (enter_str == '%')
-		len += ft_putchar('%');
-	return (len);
+	if (c == 'c')
+		return (ft_putchar(va_arg(args, int)));
+	else if (c == 's')
+		return (ft_putstr(va_arg(args, char *)));
+	else if (c == 'd' || c == 'i')
+		return (ft_putnbr(va_arg(args, int)));
+	else if (c == 'u')
+		return (ft_putunsigned(va_arg(args, unsigned int)));
+	else if (c == 'x' || c == 'X')
+		return (ft_puthex(va_arg(args, unsigned int), c));
+	else if (c == 'p')
+		return (ft_puthex(va_arg(args, unsigned long int), c));
+	else if (c == '%')
+		return (ft_putchar('%'));
+	return (0);
 }
 
-int	ft_printf(char const *enter_str, ...)
+int	ft_printf(const char *format, ...)
 {
-	va_list	args;
 	int		i;
-	int		len;
+	va_list	args;
+	int		ret;
 
-	i = 0;
-	len = 0;
-	va_start(args, enter_str);
-	while (enter_str[i])
+	ret = 0;
+	i = -1;
+	va_start(args, format);
+	while (format[++i])
 	{
-		if (enter_str[i] == '%' && enter_str[i + 1])
+		if (format[i] == '%' && format[i + 1] != '\0')
 		{
-			len += ft_enter_str(args, enter_str[i + 1]);
-			i++;
+			ret += ft_check_format(format[++i], args);
 		}
-		else
-			len += ft_putchar(enter_str[i]);
-		i++;
+		else if (format[i] != '%')
+		{
+			ft_putchar(format[i]);
+			ret++;
+		}
 	}
 	va_end(args);
-	return (len);
+	return (ret);
 }
+
+int	main(void)
+{
+	ft_printf("hola %X\n que tal %p isda\n", 42, "amigo");
+	printf("hola %X\n que tal %p isda\n", 42, "amigo");
+	return (0);
+} 

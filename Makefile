@@ -5,31 +5,38 @@
 #                                                     +:+ +:+         +:+      #
 #    By: delrio <delrio@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2024/10/30 05:17:18 by delrio            #+#    #+#              #
-#    Updated: 2024/10/30 05:17:19 by delrio           ###   ########.fr        #
+#    Created: 2025/03/11 21:56:32 by delrio            #+#    #+#              #
+#    Updated: 2025/03/11 21:56:45 by delrio           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
-
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
-RM = rm -f
+RM = rm -rf
 
-SRC = ft_printf.c ft_printf_char.c ft_printf_hex.c ft_printf_number.c ft_printf_ptr.c
-OBJ = $(SRC:.c=.o)
+SRC = ft_printf.c ft_printf_utils.c \
+
+OBJ_DIR = obj
+OBJ	= $(addprefix ${OBJ_DIR}/, ${SRC:%.c=%.o})
 
 all: $(NAME)
 
-$(NAME): $(OBJ)
-	ar rcs $(NAME) $(OBJ)
+${NAME}: ${OBJ}
+	ar -crs ${NAME} ${OBJ}
+
+${OBJ_DIR}/%.o:./%.c
+	@mkdir -p ${OBJ_DIR}
+	gcc ${FLAGS} -c $< -o $@
 
 clean:
-	$(RM) $(OBJ)
+	@$(RM) $(OBJ_DIR)
 
 fclean: clean
-	$(RM) $(NAME)
+	@$(RM) $(NAME)
 
 re: fclean all
+
+
 
 .PHONY: all clean fclean re
