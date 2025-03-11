@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: delrio <delrio@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ddel-rio <ddel-rio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 21:56:55 by delrio            #+#    #+#             */
-/*   Updated: 2025/03/11 22:00:12 by delrio           ###   ########.fr       */
+/*   Updated: 2025/03/12 00:21:14 by ddel-rio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,3 @@ int	ft_printf(const char *format, ...)
 	va_end(args);
 	return (ret);
 }
-
-int	main(void)
-{
-	ft_printf("hola %X\n que tal %p isda\n", 42, "amigo");
-	printf("hola %X\n que tal %p isda\n", 42, "amigo");
-	return (0);
-} 

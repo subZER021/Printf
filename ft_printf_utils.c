@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: delrio <delrio@student.42.fr>              +#+  +:+       +#+        */
+/*   By: ddel-rio <ddel-rio@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/11 21:58:39 by delrio            #+#    #+#             */
-/*   Updated: 2025/03/11 21:59:19 by delrio           ###   ########.fr       */
+/*   Updated: 2025/03/12 00:23:51 by ddel-rio         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ int	ft_puthex(unsigned long nbr, char c)
 		str = "0123456789abcdef";
 	if (c == 'p')
 	{
+		if (!nbr)
+			return (write(1, "(nil)", 5));
 		i += ft_putstr("0x");
 		c = 0;
 	}
